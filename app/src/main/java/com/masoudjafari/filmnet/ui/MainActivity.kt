@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.masoudjafari.filmnet.R
@@ -41,6 +44,17 @@ class MainActivity : AppCompatActivity() {
     private fun setObservers() {
         viewModel.searchResponse.observe(this) {
             searchAdapter.setData(viewModel.searchResponse.value?.data?.videos as List<VideosItem>)
+        }
+
+        viewModel.loading.observe(this) {
+            if (it)
+                binding.progressDialog.visibility = VISIBLE
+            else
+                binding.progressDialog.visibility = GONE
+        }
+
+        viewModel.errorMessage.observe(this) {
+            Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
         }
     }
 
