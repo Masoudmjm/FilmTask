@@ -5,7 +5,7 @@ import com.masoudjafari.filmnet.data.remote.RetrofitService
 import retrofit2.Response
 
 class Repository constructor(private val retrofitService: RetrofitService) : DataSource  {
-    override suspend fun getSearchResult(query: String): Response<SearchResponse> {
-        return retrofitService.getSearchResult(query)
+    override suspend fun getSearchResult(query: String, offset: Int, count: Int): Response<SearchResponse> {
+        return retrofitService.getSearchResult(query, offset, count)
     }
 }

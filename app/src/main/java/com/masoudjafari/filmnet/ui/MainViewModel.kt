@@ -10,23 +10,29 @@ class MainViewModel constructor(private val repository: Repository) : ViewModel(
     val errorMessage = MutableLiveData<String>()
     val searchResponse = MutableLiveData<SearchResponse>()
     val loading = MutableLiveData<Boolean>()
+    private var lastOffset = 0
+    private val count = 10
+    private var searchPhrase = ""
+    var newPhrase = false
 
     private var job: Job? = null
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
 
-    fun getSearchResponse(query : String) {
+    private fun getSearchResponse(query : String, offset: Int, count: Int) {
         loading.postValue(true)
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = repository.getSearchResult(query)
+            val response = repository.getSearchResult(query, offset, count)
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     searchResponse.postValue(response.body())
-                    loading.value = false
-                } else {
-                    onError("Error : ${response.message()} ")
+                    lastOffset += count
                 }
+                else
+                    onError("Error : ${response.message()} ")
+
+                loading.value = false
             }
         }
     }
@@ -39,5 +45,19 @@ class MainViewModel constructor(private val repository: Repository) : ViewModel(
     override fun onCleared() {
         super.onCleared()
         job?.cancel()
+    }
+
+    fun getSearchResult(searchPhrase : String) {
+        if (this.searchPhrase == searchPhrase) {
+            newPhrase = false
+            getSearchResponse(searchPhrase, lastOffset, count)
+        }
+        else {
+            newPhrase = true
+            lastOffset = 0
+            searchResponse.value?.data = emptyList()
+            this.searchPhrase = searchPhrase
+            getSearchResponse(searchPhrase, lastOffset, count)
+        }
     }
 }

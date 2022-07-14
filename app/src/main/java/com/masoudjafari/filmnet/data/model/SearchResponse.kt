@@ -5,19 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class SearchResponse(
 
 	@field:SerializedName("data")
-	val data: Data? = null,
+	var data: List<DataItem?>? = null,
 
 	@field:SerializedName("meta")
 	val meta: Meta? = null
-)
-
-data class Data(
-
-	@field:SerializedName("videos")
-	val videos: List<VideosItem?>? = null,
-
-	@field:SerializedName("promoted_videos")
-	val promotedVideos: List<PromotedVideosItem?>? = null
 )
 
 data class Meta(
@@ -44,10 +35,22 @@ data class Meta(
 	val serverDateTime: String? = null
 )
 
-data class ItemsItem(
+data class PosterImage(
 
-	@field:SerializedName("title")
-	val title: String? = null
+	@field:SerializedName("path")
+	val path: String? = null
+)
+
+data class ThumbnailImage(
+
+	@field:SerializedName("path")
+	val path: String? = null
+)
+
+data class AlterCoverImage(
+
+	@field:SerializedName("path")
+	val path: String? = null
 )
 
 data class CoverImage(
@@ -56,82 +59,13 @@ data class CoverImage(
 	val path: String? = null
 )
 
-data class VideosItem(
-
-	@field:SerializedName("summary")
-	val summary: String? = null,
-
-	@field:SerializedName("conditional_flag")
-	val conditionalFlag: String? = null,
-
-	@field:SerializedName("flag")
-	val flag: String? = null,
-
-	@field:SerializedName("year")
-	val year: Int? = null,
-
-	@field:SerializedName("page_title")
-	val pageTitle: String? = null,
-
-	@field:SerializedName("imdb_rank_percent")
-	val imdbRankPercent: Int? = null,
-
-	@field:SerializedName("alter_cover_image")
-	val alterCoverImage: AlterCoverImage? = null,
-
-	@field:SerializedName("short_id")
-	val shortId: String? = null,
+data class ItemsItem(
 
 	@field:SerializedName("title")
-	val title: String? = null,
-
-	@field:SerializedName("type")
-	val type: String? = null,
-
-	@field:SerializedName("duration")
-	val duration: String? = null,
-
-	@field:SerializedName("rate")
-	val rate: Double? = null,
-
-	@field:SerializedName("original_name")
-	val originalName: String? = null,
-
-	@field:SerializedName("cover_image")
-	val coverImage: CoverImage? = null,
-
-	@field:SerializedName("categories")
-	val categories: List<CategoriesItem?>? = null,
-
-	@field:SerializedName("id")
-	val id: String? = null,
-
-	@field:SerializedName("age_restriction")
-	val ageRestriction: String? = null,
-
-	@field:SerializedName("slug")
-	val slug: String? = null,
-
-	@field:SerializedName("status")
-	val status: String? = null,
-
-	@field:SerializedName("poster_image")
-	val posterImage: PosterImage? = null,
-
-	@field:SerializedName("logo_image")
-	val logoImage: LogoImage? = null
+	val title: String? = null
 )
 
-data class CategoriesItem(
-
-	@field:SerializedName("type")
-	val type: String? = null,
-
-	@field:SerializedName("items")
-	val items: List<ItemsItem?>? = null
-)
-
-data class PromotedVideosItem(
+data class DataItem(
 
 	@field:SerializedName("summary")
 	val summary: String? = null,
@@ -166,6 +100,9 @@ data class PromotedVideosItem(
 	@field:SerializedName("type")
 	val type: String? = null,
 
+	@field:SerializedName("duration")
+	val duration: String? = null,
+
 	@field:SerializedName("rate")
 	val rate: Double? = null,
 
@@ -193,23 +130,26 @@ data class PromotedVideosItem(
 	@field:SerializedName("poster_image")
 	val posterImage: PosterImage? = null,
 
-	@field:SerializedName("duration")
-	val duration: String? = null
+	@field:SerializedName("episode")
+	val episode: Int? = null,
+
+	@field:SerializedName("thumbnail_image")
+	val thumbnailImage: ThumbnailImage? = null,
+
+	@field:SerializedName("season")
+	val season: Int? = null
 )
 
-data class PosterImage(
+data class CategoriesItem(
 
-	@field:SerializedName("path")
-	val path: String? = null
+	@field:SerializedName("type")
+	val type: String? = null,
+
+	@field:SerializedName("items")
+	val items: List<ItemsItem?>? = null
 )
 
 data class LogoImage(
-
-	@field:SerializedName("path")
-	val path: String? = null
-)
-
-data class AlterCoverImage(
 
 	@field:SerializedName("path")
 	val path: String? = null
